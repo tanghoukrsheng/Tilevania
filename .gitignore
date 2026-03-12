@@ -1,0 +1,66 @@
+## Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+## Visual Studio / Rider / IDE
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+.vs/
+.vscode/
+.idea/
+*.slnx
+
+## OS generated
+.DS_Store
+Thumbs.db
+
+## Build artifacts
+*.apk
+*.aab
+*.unitypackage
+*.zip
+
+## Crash logs
+*.stacktrace
+crash.log
+
+## Plugin / native generated
+Assets/Plugins/**/bin/
+Assets/Plugins/**/obj/
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Package manager
+# Keep Packages/manifest.json and lockfiles in source control for reproducible installs.
+# Ignore the package cache and lock backups
+Library/PackageCache/
+Packages/packages-lock.json
+
+## Unity cache server
+com.unity.*
+
+## Others
+*.log
+
+# Uncomment if you have a large file you don't want in repo but need locally
+# *.psd
