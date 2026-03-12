@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     Animator myAnimator;
     CapsuleCollider2D myCapsuleCollider;
+    BoxCollider2D myBoxCollider;
 
     float gravityScaleAtStart;
     // alled once before the first execution of Update after the MonoBehaviour is created
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
+        myBoxCollider = GetComponent<BoxCollider2D>();
         gravityScaleAtStart = rb.gravityScale;
     }
 
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnJump(InputValue value)
     {
-        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if (myBoxCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || myBoxCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
              if(value.isPressed)
              {
