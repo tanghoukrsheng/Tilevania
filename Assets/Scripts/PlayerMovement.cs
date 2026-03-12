@@ -5,17 +5,20 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float runSpeed = 8f; 
     [SerializeField] float jumpSpeed = 12f; 
+    [SerializeField] float climbSpeed = 5f;
     Vector2 moveInput;
     Rigidbody2D rb;
     Animator myAnimator;
-
     CapsuleCollider2D myCapsuleCollider;
+
+    float gravityScaleAtStart;
     // alled once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
+        gravityScaleAtStart = rb.gravityScale;
     }
 
     // Update is called once per frame
@@ -24,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
        
         Run();
         FlipSprite();
+        ClimbLadder();
     }
 
 
@@ -33,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     void OnMove(InputValue value) 
     {
         moveInput = value.Get<Vector2>();
-        
+       
     }
 
     void Run()
@@ -61,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnJump(InputValue value)
     {
-        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
              if(value.isPressed)
              {
@@ -71,5 +75,26 @@ public class PlayerMovement : MonoBehaviour
       
     }
 
+    void ClimbLadder()
+    {
+        
+        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        {
+        
+        Vector2 climbVelocity = new Vector2(rb.linearVelocity.x, moveInput.y * climbSpeed);
+        rb.linearVelocity = climbVelocity;
+        rb.gravityScale = 0f;
+
+        bool playerHasVerticalSpeed = Mathf.Abs(rb.linearVelocity.y) > Mathf.Epsilon;
+        myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
+
+        }
+        else
+        {
+            rb.gravityScale = gravityScaleAtStart;
+            myAnimator.SetBool("isClimbing", false);
+        }
+
+    }
    
 }
