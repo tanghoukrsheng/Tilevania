@@ -6,11 +6,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float runSpeed = 8f; 
     [SerializeField] float jumpSpeed = 12f; 
     [SerializeField] float climbSpeed = 5f;
+    [SerializeField] Vector2 deathFling = new Vector2(10f, 30f);
     Vector2 moveInput;
     Rigidbody2D rb;
     Animator myAnimator;
     CapsuleCollider2D myCapsuleCollider;
     BoxCollider2D myBoxCollider;
+
+    bool isAlive = true;
 
     float gravityScaleAtStart;
     // alled once before the first execution of Update after the MonoBehaviour is created
@@ -26,10 +29,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+       if (!isAlive) { return; }
         Run();
         FlipSprite();
         ClimbLadder();
+        Die();  
     }
 
 
@@ -67,6 +71,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnJump(InputValue value)
     {
+        if (!isAlive) { return; }
+
+        
         if (myBoxCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || myBoxCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
              if(value.isPressed)
@@ -97,6 +104,16 @@ public class PlayerMovement : MonoBehaviour
             myAnimator.SetBool("isClimbing", false);
         }
 
+    }
+
+    void Die()
+    {
+        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Mobs", "Hazards")))
+        {
+            isAlive = false;
+            myAnimator.SetTrigger("Dying");
+            rb.linearVelocity = deathFling; 
+        }
     }
    
 }
