@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 12f; 
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathFling = new Vector2(10f, 30f);
+
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform gun; 
     Vector2 moveInput;
     Rigidbody2D rb;
     Animator myAnimator;
@@ -73,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isAlive) { return; }
 
-        
+
         if (myBoxCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) || myBoxCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
              if(value.isPressed)
@@ -114,6 +117,15 @@ public class PlayerMovement : MonoBehaviour
             myAnimator.SetTrigger("Dying");
             rb.linearVelocity = deathFling; 
         }
+    }
+
+    void OnAttack(InputValue value)
+    {
+        if (!isAlive) { return; }
+
+  
+            Instantiate(bullet, gun.position, transform.rotation); // This line creates a new instance of the bullet GameObject at the position of the gun and with the same rotation as the player.
+        
     }
    
 }
