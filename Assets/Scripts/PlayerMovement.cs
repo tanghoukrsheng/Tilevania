@@ -116,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
             isAlive = false;
             myAnimator.SetTrigger("Dying");
             rb.linearVelocity = deathFling; 
+            FindFirstObjectByType<GameSession>().ProcessPlayerDeath();
         }
     }
 
